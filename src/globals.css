@@ -66,3 +66,9 @@
   }
 }
 
+.styled-background {
+  background-image: url('../public/auth-img.jpeg');
+  background-size: cover;
+  background-position: center; 
+  background-repeat: no-repeat;
+}

@@ -1,6 +1,6 @@
 import localFont from "next/font/local";
 import "@/globals.css";
-
+import AuthNav from '../component/authNav'
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
 //   variable: "--font-geist-sans",
@@ -21,8 +21,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className='styled-background'
       >
+        <AuthNav />
         {children}
       </body>
     </html>
