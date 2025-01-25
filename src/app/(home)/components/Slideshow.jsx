@@ -1,35 +1,26 @@
-// components/Slideshow.js
-
 "use client";
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-const slidesData = [
-  {
-    type: 'image',
-    src: 'https://res.cloudinary.com/drfzbtbzi/image/upload/v1730473340/scc-1.jpg',
-    caption: 'SheCanCancode bootcamp',
+const slidesData = {
+  captions: [
+    "SheCanCode Alumnus",
+    "SheCanCancode Bootcamp",
+    "Inspiration and Testimonies",
+  ],
+  video: {
+    type: "video",
+    src: "https://res.cloudinary.com/drfzbtbzi/video/upload/v1730670533/igire-video.mp4",
   },
-  {
-    type: 'image',
-    src: 'https://res.cloudinary.com/drfzbtbzi/image/upload/v1730473340/scc-1.jpg',
-    caption: 'ShecanCode Aluminus',
-  },
-  {
-    type: 'video',
-    src: 'https://res.cloudinary.com/drfzbtbzi/video/upload/v1730670533/igire-video.mp4',
-    caption: 'Inspiraton and testimonies',
-  },
-];
+};
 
 export default function Slideshow() {
-  const [slideIndex, setSlideIndex] = useState(0);
+  const [captionIndex, setCaptionIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     if (!isPaused) {
       const timer = setInterval(() => {
-        setSlideIndex((prevIndex) => (prevIndex + 1) % slidesData.length);
+        setCaptionIndex((prevIndex) => (prevIndex + 1) % slidesData.captions.length);
       }, 2000);
       return () => clearInterval(timer);
     }
@@ -40,57 +31,39 @@ export default function Slideshow() {
 
   return (
     <div className="relative max-w-2xl mx-auto">
+      {/* Video Section */}
       <div
         className="relative overflow-hidden shadow-lg"
-        style={{ aspectRatio: '16/9' }}
+        style={{ aspectRatio: "16/9" }}
       >
-        {slidesData.map((slide, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              index === slideIndex ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            {slide.type === 'video' ? (
-              <video
-                src={slide.src}
-                className="object-cover w-full h-full"
-                onMouseEnter={(e) => {
-                  e.target.pause();
-                  handleMouseEnter();
-                }}
-                onMouseLeave={(e) => {
-                  e.target.play();
-                  handleMouseLeave();
-                }}
-                autoPlay
-                muted
-                loop
-              />
-            ) : (
-              <Image
-                src={slide.src}
-                width={100}
-                height={100}
-                alt={`Slide ${index + 1}`}
-                className="object-cover w-full h-full"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-              />
-            )}
-            <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center p-4">
-              {slide.caption}
-            </div>
-          </div>
-        ))}
+        <video
+          src={slidesData.video.src}
+          className="object-cover w-full h-full"
+          onMouseEnter={(e) => {
+            e.target.pause();
+            handleMouseEnter();
+          }}
+          onMouseLeave={(e) => {
+            e.target.play();
+            handleMouseLeave();
+          }}
+          autoPlay
+          muted
+          loop
+        />
+        {/* Caption Section */}
+        <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center p-4">
+          {slidesData.captions[captionIndex]}
+        </div>
       </div>
 
+      {/* Caption Indicators */}
       <div className="flex justify-center mt-4">
-        {slidesData.map((_, index) => (
+        {slidesData.captions.map((_, index) => (
           <span
             key={index}
             className={`h-4 w-4 mx-1 rounded-full bg-gray-100 transition duration-300 ease-in-out ${
-              index === slideIndex ? 'bg-orange-500' : ''
+              index === captionIndex ? "bg-orange-500" : ""
             }`}
           ></span>
         ))}
